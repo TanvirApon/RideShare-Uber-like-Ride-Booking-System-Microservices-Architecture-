@@ -135,4 +135,4 @@ This project is for learning/educational purposes. Feel free to fork and modify.
 
 ## 🙋‍♂️ Author
 
-Built by **[Your Name]** — feel free to connect or contribute!
+Built by **Tanvir Hossain Firoz** — feel free to connect or contribute!
