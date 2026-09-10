@@ -43,7 +43,7 @@ It's built with a microservices architecture where each service has a single res
 | Language & Framework | Java, Spring Boot |
 | Messaging / Event Streaming | Apache Kafka, Zookeeper |
 | Geospatial Search | Redis (GEOADD, GEOSEARCH, GEODIST, GEOPOS) |
-| Database | PostgreSQL / MySQL *(update based on your setup)* |
+| Database | MySQL|
 | Architecture Style | Microservices, Event-Driven Design |
 | Build Tool | Maven / Gradle |
 | Containerization | Docker, Docker Compose |
