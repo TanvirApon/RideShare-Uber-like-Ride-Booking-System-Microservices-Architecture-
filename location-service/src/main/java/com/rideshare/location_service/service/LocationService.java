@@ -2,11 +2,19 @@ package com.rideshare.location_service.service;
 
 
 import com.rideshare.location_service.dto.DriverLocationRequest;
+import com.rideshare.location_service.dto.NearByDriverResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.data.geo.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -38,6 +46,44 @@ public class LocationService {
                 driverLocation,
                 driverLocationRequest.getDriverId()
         );
+    }
+
+    public List<NearByDriverResponse>getNearByDriverLocation(
+            double longitude,
+            double latitude,
+            double radiusInKm) {
+
+        log.info("Finding drivers near lat: {} and long:{} within {} km",
+                latitude, longitude,radiusInKm);
+
+        Circle searchArea = new Circle(
+                new Point(longitude,latitude),
+                new Distance(radiusInKm, RedisGeoCommands.DistanceUnit.KILOMETERS)
+                );
+
+       GeoResults<RedisGeoCommands.GeoLocation<String>> result =
+               redisTemplate.opsForGeo().radius(
+                       Drivers_GEO_KEY,
+                       searchArea,
+                       RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs()
+                               .includeCoordinates()
+                               .includeDistance()
+                               .sortAscending()
+                               .limit(10));
+
+
+       List<NearByDriverResponse> nearByDriverResponseList = new ArrayList<>();
+       if(result!=null) {
+         result.getContent().forEach(result-> {
+             RedisGeoCommands.GeoLocation<String> location = result.getContent();
+             nearByDriverResponseList.add(new NearByDriverResponse(
+                location.getName(), location.getPoint().getX(),
+                location.getPoint().getY(), result.getDistance().getValue()
+             ));
+         });
+       }
+       log.info("Found {} drivers nearby", nearByDriverResponseList.size());
+       return nearByDriverResponseList;
     }
 
 }
