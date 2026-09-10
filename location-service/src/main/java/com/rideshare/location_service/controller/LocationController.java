@@ -19,12 +19,11 @@ public class LocationController {
 
     private final LocationService locationService;
 
-
     @PostMapping("/drivers/update")
     public ResponseEntity<String>updateDriverLocation(
-            @RequestBody DriverLocationRequest) {
+            @RequestBody DriverLocationRequest driverLocationRequest) {
 
-        locationService.updateDriverLocation(DriverLocationRequest);
+        locationService.updateDriverLocation(driverLocationRequest);
         return ResponseEntity.ok("Driver Location Updated");
     }
 
@@ -33,18 +32,14 @@ public class LocationController {
             @RequestParam double longitude,
             @RequestParam double latitude,
             @RequestParam(defaultValue = "0.5") double radius) {
-
-        return ResponseEntity.ok(locationService.getNearByDriver(longitude, latitude, radius));
+        return ResponseEntity.ok(locationService.getNearByDriverLocation(longitude, latitude, radius));
     }
-
 
     @DeleteMapping("/drivers/{driverId}")
     public ResponseEntity<String>removeDriverById(@PathVariable String driverId) {
         locationService.removeDriver(driverId);
         return ResponseEntity.ok("Driver Removed Successfully");
     }
-
-
 }
 
 
