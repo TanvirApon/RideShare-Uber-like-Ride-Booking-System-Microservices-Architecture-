@@ -21,7 +21,7 @@ public class LocationController {
 
 
     @PostMapping("/drivers/update")
-    public ResponseEntity<String> updateDriverLocation(
+    public ResponseEntity<String>updateDriverLocation(
             @RequestBody DriverLocationRequest) {
 
         locationService.updateDriverLocation(DriverLocationRequest);
@@ -29,7 +29,7 @@ public class LocationController {
     }
 
     @GetMapping("/drivers/nearby")
-    public ResponseEntity<List<NearByDriverResponse>> getNearByDriverLocation(
+    public ResponseEntity<List<NearByDriverResponse>>getNearByDriverLocation(
             @RequestParam double longitude,
             @RequestParam double latitude,
             @RequestParam(defaultValue = "0.5") double radius) {
