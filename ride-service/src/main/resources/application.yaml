@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: ride-service
+
+server:
+  port: 8083
