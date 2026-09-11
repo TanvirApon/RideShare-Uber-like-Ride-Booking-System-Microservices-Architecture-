@@ -1,5 +1,49 @@
+server:
+  port: 8084
+
 spring:
   application:
     name: matching-service
-server:
-  port: 8082
+
+  # Kafka Consumer
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: matching-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "com.rideshare.matching_service.event"
+            use:
+              type:
+                headers: true
+            value:
+              default:
+                type: com.rideshare.matching_service.event.RideRequestedEvent
+
+    # Kafka Producer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: true
+
+# Location Service URL
+location:
+  service:
+    url: http://localhost:8082
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info

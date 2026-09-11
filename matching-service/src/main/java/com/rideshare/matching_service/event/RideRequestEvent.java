@@ -1,0 +1,19 @@
+package com.rideshare.matching_service.event;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RideRequestEvent {
+    private String riderId;
+    private String rideId;
+    private double pickupLatitude;
+    private double pickupLongitude;
+    private String pickupAddress;
+    private double dropLatitude;
+    private double dropLongitude;
+    private String dropAddress;
+}
