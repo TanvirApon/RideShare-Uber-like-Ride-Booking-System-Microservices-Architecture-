@@ -1,4 +1,4 @@
-package com.rideshare.location_service.confid;
+package com.rideshare.location_service.config;
 
 
 import org.springframework.context.annotation.Bean;
