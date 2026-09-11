@@ -29,4 +29,4 @@ public class RideResponse {
     private LocalDateTime startedAt;
     private LocalDateTime completedAt;
 }
-}
+
